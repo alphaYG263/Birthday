@@ -44,11 +44,18 @@
             transform: scale(1.1);
             box-shadow: 0 6px 15px rgba(56, 239, 125, 0.5);
         }
+
+        .btn.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     </style>
 
     <script>
         function startCountdown() {
-            const countdownDate = new Date(2025, 1, 14, 0, 0, 0).getTime();
+            const countdownDate = new Date(2025, 1, 11, 19, 30, 0).getTime();
+            const timerElement = document.getElementById("timer");
+            const openButton = document.getElementById("openButton");
 
             const timer = setInterval(function() {
                 const currentTime = new Date().getTime();
@@ -56,10 +63,12 @@
 
                 if (distance < 0) {
                     clearInterval(timer);
-                    document.getElementById("timer").innerHTML = "00:00:00";
-                    document.getElementById("openButton").classList.remove("cursor-not-allowed");
-                    document.getElementById("openButton").classList.add("cursor-pointer");
-                    document.getElementById("openButton").disabled = false;
+                    timerElement.innerHTML = "00:00:00";
+
+                    // Enable the button and remove the not-allowed cursor
+                    openButton.classList.remove("disabled", "cursor-not-allowed");
+                    openButton.removeAttribute("disabled");
+                    openButton.href = "first.html"; // Make link clickable
                     return;
                 }
 
@@ -67,7 +76,7 @@
                 const minutes = Math.floor((distance % 3600) / 60);
                 const seconds = distance % 60;
 
-                document.getElementById("timer").innerHTML =
+                timerElement.innerHTML =
                     `${totalHours}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`;
 
             }, 1000);
@@ -82,14 +91,12 @@
         <h1 class="text-4xl mb-4 font-extrabold">🎁 A Special Surprise! 🎉</h1>
         <p class="text-lg mb-6">Time remaining until your special day:</p>
         <div id="timer" class="timer text-5xl font-bold mb-6">Loading...</div>
-        <a href="first.html" id="openButton" 
-           class="btn text-white px-6 py-3 rounded-full text-lg font-bold transition-all cursor-not-allowed disabled:opacity-50" 
-           onclick="this.disabled = true; return false;" disabled>
+        <a href="#" id="openButton" 
+           class="btn text-white px-6 py-3 rounded-full text-lg font-bold transition-all cursor-not-allowed disabled" 
+           disabled>
             Open Surprise 🎈
         </a>
     </div>
 
 </body>
 </html>
-
-
